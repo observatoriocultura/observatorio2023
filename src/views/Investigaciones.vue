@@ -27,7 +27,7 @@ const filters = ref({
  * 2023-07-22
  */
 const readCSV = () => {
-  const csvFilePath = '/data/pai_investigaciones.csv';
+  const csvFilePath = 'https://jmojedap.github.io/observatorio/data/pai_investigaciones.csv';
   Papa.parse(csvFilePath, {
     download: true,
     header: true,
@@ -42,7 +42,7 @@ const readCSV = () => {
  * 2023-07-22
  */
 const readCSVProductos = () => {
-  const csvFilePath = '/data/pai_productos.csv';
+  const csvFilePath = 'https://jmojedap.github.io/observatorio/data/pai_productos.csv';
   Papa.parse(csvFilePath, {
     download: true,
     header: true,
@@ -57,7 +57,7 @@ const readCSVProductos = () => {
  * 2023-07-22
  */
 const readCSVHallazgos = () => {
-  const csvFilePath = '/data/pai_hallazgos.csv';
+  const csvFilePath = 'https://jmojedap.github.io/observatorio/data/pai_hallazgos.csv';
   Papa.parse(csvFilePath, {
     download: true,
     header: true,

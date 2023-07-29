@@ -4,6 +4,13 @@ import Papa from 'papaparse';
 
 // Variables
 //-----------------------------------------------------------------------------
+const fileGids = {
+  'investigaciones': '1186279524',
+  'productos': '1226549997',
+  'hallazgos': '987529212',
+};
+const loading = ref(true);
+const idDriveFile = '1mTpRd2lgxaY_FJj9XDcXHfMHEOfg2c6rxmUE-zR68WA';
 const investigaciones = ref([]);
 const productos = ref([]);
 const hallazgos = ref([]);
@@ -16,19 +23,24 @@ const currentInvestigacion = ref({
   'Descripción':'-',
 });
 const filters = ref({
-  q:'feria',
+  q:'',
   entidad:''
 });
 
 // FUNCIONES
 //-----------------------------------------------------------------------------
+
+const csvPath = (sheetName) => {
+  return 'https://docs.google.com/spreadsheets/d/' + idDriveFile + '/export?format=csv&gid=' + fileGids[sheetName];
+}
+
 /**
  * Leer el contenido del listado de investigaciones
  * 2023-07-22
  */
 const readCSV = () => {
-  const csvFilePath = 'https://jmojedap.github.io/observatorio/data/pai_investigaciones.csv';
-  Papa.parse(csvFilePath, {
+  //const csvFilePath = 'https://jmojedap.github.io/observatorio/data/pai_productos.csv';
+  Papa.parse(csvPath('investigaciones'), {
     download: true,
     header: true,
     complete: (results) => {
@@ -42,8 +54,8 @@ const readCSV = () => {
  * 2023-07-22
  */
 const readCSVProductos = () => {
-  const csvFilePath = 'https://jmojedap.github.io/observatorio/data/pai_productos.csv';
-  Papa.parse(csvFilePath, {
+  //const csvFilePath = 'https://jmojedap.github.io/observatorio/data/pai_productos.csv';
+  Papa.parse(csvPath('productos'), {
     download: true,
     header: true,
     complete: (results) => {
@@ -57,12 +69,13 @@ const readCSVProductos = () => {
  * 2023-07-22
  */
 const readCSVHallazgos = () => {
-  const csvFilePath = 'https://jmojedap.github.io/observatorio/data/pai_hallazgos.csv';
-  Papa.parse(csvFilePath, {
+  //const csvFilePath = 'https://jmojedap.github.io/observatorio/data/pai_hallazgos.csv';
+  Papa.parse(csvPath('hallazgos'), {
     download: true,
     header: true,
     complete: (results) => {
       hallazgos.value = results.data;
+      loading.value = false
     }
   });
 };
@@ -73,19 +86,7 @@ const readCSVHallazgos = () => {
  * @param {integer} investigacionId 
  */
 const setCurrent = (investigacionId) =>{
-  console.log(investigacionId)
   currentInvestigacion.value = investigaciones.value.find(item => item['ID'] == investigacionId)
-  section.value = 'details'
-};
-
-/**
- * Establecer investigación actual por el id en el array
- * 2023-07-22
- * @param {integer} index
- */
-const setCurrentById = (index) =>{
-  console.log(index)
-  currentInvestigacion.value = investigaciones[index]
   section.value = 'details'
 };
 
@@ -158,23 +159,27 @@ onMounted(() => {
   readCSV();
   readCSVProductos();
   readCSVHallazgos();
-  //setCurrent(14);
 });
 
 </script>
 
 <template>
-  <div class="container">
-      <h1 class="text-center">Plan Anual de Investigaciones 2023 V2</h1>
+  <div class="text-center" v-if="loading">
+    <div class="spinner-border text-secondary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <div class="container" v-else>
+      <h1 class="text-center">Plan Anual de Investigaciones 2023</h1>
 
       <div class="mb-2 d-flex justify-content-center">
-          <div class="input-group" style="max-width: 320px;">
+          <div class="input-group me-2" style="max-width: 320px;">
               <input type="text" name="q" v-model="filters.q" class="form-control" placeholder="Buscar" autofocus
                   v-on:change="filterInvestigaciones">
-              <button class="btn btn-light" type="button" v-on:click="filters.q = ''">
-                  <i class="fas fa-times"></i>
-              </button>
           </div>
+          <button class="btn-delete-search" type="button" v-on:click="filters.q = ''">
+              <i class="fas fa-times"></i>
+          </button>
       </div>
 
       <div class="text-center my-2" v-show="section == 'table'">
@@ -221,16 +226,26 @@ onMounted(() => {
                       <p class="only-lg">
                           {{ investigacion['Objetivo de la investigación'] }}
                       </p>
+                      <div class="progress d-none" style="height: 2px;">
+                        <div class="progress-bar" role="progressbar" v-bind:style="`width: ` + investigacion['Porcentaje de avance']" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                      </div>
                   </td>
               </tr>
           </tbody>
       </table>
 
       <div v-show="section == 'details'">
-          <button type="button" class="btn btn-sm btn-light mb-2" v-on:click="goToList">
-              <i class="fas fa-arrow-left"></i>
-              Volver
+          <button type="button" class="btn btn-light mb-2" v-on:click="goToList">
+              <i class="fa-solid fa-arrow-left"></i> Tabla
           </button>
+          <div class="center_box_800">
+            <div class="progress mb-2">
+              <div class="progress-bar" role="progressbar" v-bind:style="`width: ` + currentInvestigacion['Porcentaje de avance']" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                {{ currentInvestigacion['Porcentaje de avance'] }}
+              </div>
+            </div>
+          </div>
           <div class="ficha shadow mb-3">
               <div class="ficha-header d-flex justify-content-between">
                   <div style="border-left: 3em solid #ffb80c; margin-left: 3em;" class="p-2">
@@ -329,6 +344,18 @@ onMounted(() => {
     font-size: 1.5em;
     margin-bottom: 0.2em;
     text-align: center;
+  }
+
+  .btn-delete-search {
+    border: 1px solid #ebedf2;
+    width: 38px;
+    border-radius: 3px;
+    background-color: #f8f9fa;
+  }
+
+  .btn-delete-search:hover {
+    border-color: #c0c3c9;
+    background-color: #f9fafB;
   }
 
   .icon-container:hover{

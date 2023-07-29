@@ -234,7 +234,7 @@ onMounted(() => {
           <div class="ficha shadow mb-3">
               <div class="ficha-header d-flex justify-content-between">
                   <div style="border-left: 3em solid #ffb80c; margin-left: 3em;" class="p-2">
-                      <img class="logo-orfeo" src="images/app/orfeo.png" alt="Logo Orfeo">
+                      <img class="logo-orfeo" src="/images/app/orfeo.png" alt="Logo Orfeo">
                       <strong>Orfeo</strong>
                       <br>
                       <span title="Expediente documental en Orfeo">{{ currentInvestigacion['EXPEDIENTE'] }}</span>

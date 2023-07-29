@@ -165,7 +165,7 @@ onMounted(() => {
 
 <template>
   <div class="container">
-      <h1 class="text-center">Plan Anual de Investigaciones 2023</h1>
+      <h1 class="text-center">Plan Anual de Investigaciones 2023 V2</h1>
 
       <div class="mb-2 d-flex justify-content-center">
           <div class="input-group" style="max-width: 320px;">

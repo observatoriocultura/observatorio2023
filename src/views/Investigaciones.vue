@@ -13,7 +13,7 @@ const fileGids = {
   'productos': '1226549997',
   'hallazgos': '987529212',
 };
-const loading = ref(false);
+const loading = ref(true);
 const idDriveFile = '1mTpRd2lgxaY_FJj9XDcXHfMHEOfg2c6rxmUE-zR68WA';
 const investigaciones = ref([]);
 const productos = ref([]);

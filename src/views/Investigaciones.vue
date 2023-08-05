@@ -161,7 +161,6 @@ const filteredInvestigaciones = computed(() => {
 });
 
 const filteredProductos = computed(() => {
-  console.log('Filtrando' ,currentInvestigacion.value['ID'])
   const filteredArray = productos.value.filter(item => {
     const inCurrentInvestigacion = item['ID Investigación'] == currentInvestigacion.value['ID'] && item['Orden'] > 0
     return inCurrentInvestigacion;
@@ -170,7 +169,6 @@ const filteredProductos = computed(() => {
 });
 
 const filteredHallazgos = computed(() => {
-  console.log('Filtrando' ,currentInvestigacion.value['ID'])
   const filteredArray = hallazgos.value.filter(item => {
     const inCurrentInvestigacion = item['ID Investigación'] == currentInvestigacion.value['ID']
     return inCurrentInvestigacion;
@@ -193,7 +191,7 @@ onMounted(() => {
     </div>
   </div>
   <div class="container" v-else>
-      <h1 class="text-center">Plan Anual de Investigaciones 2023</h1>
+      <h1 class="text-center">Plan Anual de Investigaciones 2023 217</h1>
 
       <div class="mb-2 d-flex justify-content-center">
           <div class="input-group me-2" style="max-width: 320px;">

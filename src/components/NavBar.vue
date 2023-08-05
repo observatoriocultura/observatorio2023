@@ -17,7 +17,7 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/">Investigaciones</RouterLink>
+            <RouterLink class="nav-link" to="/investigaciones/1">Investigaciones</RouterLink>
           </li>
         </ul>
       </div>

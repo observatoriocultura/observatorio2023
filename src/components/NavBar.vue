@@ -1,10 +1,10 @@
 <script setup>
-defineProps({
+/*defineProps({
   msg: {
     type: String,
     required: true
   }
-})
+})*/
 </script>
 
 <template>

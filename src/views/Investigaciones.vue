@@ -1,21 +1,25 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import Papa from 'papaparse';
 
 // Variables
 //-----------------------------------------------------------------------------
+const router = useRouter();
+const route = useRoute();
+let investigacionId = 0;
 const fileGids = {
   'investigaciones': '1186279524',
   'productos': '1226549997',
   'hallazgos': '987529212',
 };
-const loading = ref(true);
+const loading = ref(false);
 const idDriveFile = '1mTpRd2lgxaY_FJj9XDcXHfMHEOfg2c6rxmUE-zR68WA';
 const investigaciones = ref([]);
 const productos = ref([]);
 const hallazgos = ref([]);
 const section = ref('table');
-const currentKey = ref(0);
+const dataOrigin = 'drive'
 const currentInvestigacion = ref({
   'ID':-1,
   'Código':'-',
@@ -31,7 +35,11 @@ const filters = ref({
 //-----------------------------------------------------------------------------
 
 const csvPath = (sheetName) => {
-  return 'https://docs.google.com/spreadsheets/d/' + idDriveFile + '/export?format=csv&gid=' + fileGids[sheetName];
+  if (dataOrigin == 'drive') {
+    return 'https://docs.google.com/spreadsheets/d/' + idDriveFile + '/export?format=csv&gid=' + fileGids[sheetName];  
+  } else {
+    return 'https://jmojedap.github.io/observatorio/data/pai_' + sheetName + '.csv';
+  }
 }
 
 /**
@@ -39,7 +47,6 @@ const csvPath = (sheetName) => {
  * 2023-07-22
  */
 const readCSV = () => {
-  //const csvFilePath = 'https://jmojedap.github.io/observatorio/data/pai_productos.csv';
   Papa.parse(csvPath('investigaciones'), {
     download: true,
     header: true,
@@ -54,14 +61,15 @@ const readCSV = () => {
  * 2023-07-22
  */
 const readCSVProductos = () => {
-  //const csvFilePath = 'https://jmojedap.github.io/observatorio/data/pai_productos.csv';
-  Papa.parse(csvPath('productos'), {
-    download: true,
-    header: true,
-    complete: (results) => {
-      productos.value = results.data;
+  Papa.parse(csvPath('productos'),
+    {
+      download: true,
+      header: true,
+      complete: (results) => {
+        productos.value = results.data;
+      }
     }
-  });
+  );
 };
 
 /**
@@ -69,23 +77,38 @@ const readCSVProductos = () => {
  * 2023-07-22
  */
 const readCSVHallazgos = () => {
-  //const csvFilePath = 'https://jmojedap.github.io/observatorio/data/pai_hallazgos.csv';
   Papa.parse(csvPath('hallazgos'), {
     download: true,
     header: true,
     complete: (results) => {
       hallazgos.value = results.data;
       loading.value = false
+
+      if ( route.params.id > 0 ) {
+        setCurrent()
+      }
     }
   });
 };
+
+const setInvestigacionId = (newValue) => {
+  investigacionId = newValue
+  //router.push({ name: 'investigaciones', params: { id: investigacionId } });
+   // Crear un nuevo objeto de parámetros con el argumento actualizado
+   const newParams = { ...route.params, id: investigacionId };
+
+// Navegar a una nueva ruta con el argumento actualizado
+  router.push({ name: route.name, params: newParams });
+  setCurrent()
+}
 
 /**
  * Establecer investigación actual
  * 2023-07-22
  * @param {integer} investigacionId 
  */
-const setCurrent = (investigacionId) =>{
+const setCurrent = () =>{
+  console.log(investigacionId);
   currentInvestigacion.value = investigaciones.value.find(item => item['ID'] == investigacionId)
   section.value = 'details'
 };
@@ -194,7 +217,7 @@ onMounted(() => {
       <div class="d-flex mb-2 justify-content-center">
           <div class="">
               <button type="button" class="investigacion-sqr me-1" v-for="(investigacion,i) in investigaciones"
-                  :key="i" v-on:click="setCurrent(investigacion['ID'])"
+                  :key="i" v-on:click="setInvestigacionId(investigacion['ID'])"
                   v-bind:class="classButtonInvestigacion(investigacion)" v-bind:title="investigacion['Código']">
               </button>
           </div>
@@ -217,7 +240,7 @@ onMounted(() => {
                       {{ investigacion['Dirección/Dependencia'] }}
                   </td>
                   <td>
-                      <a type="button" class="investigacion-title" v-on:click="setCurrent(investigacion['ID'])">
+                      <a type="button" class="investigacion-title" v-on:click="setInvestigacionId(investigacion['ID'])">
                           {{ investigacion['Código'] }}
                       </a>
                       <br>

@@ -19,9 +19,6 @@
           <li class="nav-item">
             <RouterLink class="nav-link" to="/investigaciones/1">Investigaciones</RouterLink>
           </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/about">Acerca de</RouterLink>
-          </li>
         </ul>
       </div>
     </div>

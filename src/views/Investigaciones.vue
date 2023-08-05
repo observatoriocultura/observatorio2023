@@ -13,13 +13,13 @@ const fileGids = {
   'productos': '1226549997',
   'hallazgos': '987529212',
 };
-const loading = ref(false);
+const loading = ref(true);
 const idDriveFile = '1mTpRd2lgxaY_FJj9XDcXHfMHEOfg2c6rxmUE-zR68WA';
 const investigaciones = ref([]);
 const productos = ref([]);
 const hallazgos = ref([]);
 const section = ref('table');
-const dataOrigin = 'local'
+const dataOrigin = 'drive'
 const currentInvestigacion = ref({
   'ID':-1,
   'Código':'-',
@@ -85,9 +85,9 @@ const readCSVHallazgos = () => {
       loading.value = false
       console.log(loading.value)
 
-      if ( route.params.id > 0 ) {
+      /* if ( route.params.id > 0 ) {
         setCurrent()
-      }
+      } */
     }
   });
 };
@@ -186,13 +186,14 @@ onMounted(() => {
 </script>
 
 <template>
+  <h1 class="text-center page-title">Plan Anual de Investigaciones 2023</h1>
   <div class="text-center" v-if="loading">
     <div class="spinner-border text-secondary" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
   <div class="container" v-else>
-      <h1 class="text-center">Plan Anual de Investigaciones 2023 217</h1>
+      
 
       <div class="mb-2 d-flex justify-content-center">
           <div class="input-group me-2" style="max-width: 320px;">
@@ -344,6 +345,14 @@ onMounted(() => {
 </template>
 
 <style>
+  .page-title{
+    color: white;
+    background-color: #5e4293;
+    padding: 0.2em;
+    margin-bottom: 0.5em;
+    font-size: 1em;
+  }
+
   .investigacion-title {
     color: #346fdb;
     text-decoration: none;

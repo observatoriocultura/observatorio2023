@@ -13,13 +13,13 @@ const fileGids = {
   'productos': '1226549997',
   'hallazgos': '987529212',
 };
-const loading = ref(true);
+const loading = ref(false);
 const idDriveFile = '1mTpRd2lgxaY_FJj9XDcXHfMHEOfg2c6rxmUE-zR68WA';
 const investigaciones = ref([]);
 const productos = ref([]);
 const hallazgos = ref([]);
 const section = ref('table');
-const dataOrigin = 'drive'
+const dataOrigin = 'local'
 const currentInvestigacion = ref({
   'ID':-1,
   'Código':'-',
@@ -83,6 +83,7 @@ const readCSVHallazgos = () => {
     complete: (results) => {
       hallazgos.value = results.data;
       loading.value = false
+      console.log(loading.value)
 
       if ( route.params.id > 0 ) {
         setCurrent()

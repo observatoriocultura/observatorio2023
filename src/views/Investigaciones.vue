@@ -7,7 +7,7 @@ import Papa from 'papaparse';
 //-----------------------------------------------------------------------------
 const router = useRouter();
 const route = useRoute();
-let investigacionId = 0;
+let investigacionId = route.params.id;
 const fileGids = {
   'investigaciones': '1186279524',
   'productos': '1226549997',
@@ -19,7 +19,7 @@ const investigaciones = ref([]);
 const productos = ref([]);
 const hallazgos = ref([]);
 const section = ref('table');
-const dataOrigin = 'drive'
+const dataOrigin = 'local'
 const currentInvestigacion = ref({
   'ID':-1,
   'Código':'-',
@@ -85,9 +85,9 @@ const readCSVHallazgos = () => {
       loading.value = false
       console.log(loading.value)
 
-      /* if ( route.params.id > 0 ) {
+      if ( route.params.id > 0 ) {
         setCurrent()
-      } */
+      }
     }
   });
 };
@@ -186,7 +186,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <h1 class="text-center page-title">Plan Anual de Investigaciones 2023</h1>
+  <h1 class="text-center page-title">Plan Anual de Investigaciones 2023 ({{ investigacionId }})</h1>
   <div class="text-center" v-if="loading">
     <div class="spinner-border text-secondary" role="status">
       <span class="visually-hidden">Loading...</span>

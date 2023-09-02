@@ -8,7 +8,7 @@
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-2">
     <div class="container-fluid">
       <a class="navbar-brand" href="#"><img src="/favicon.png" alt="Logo Observatorio"></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,7 +17,10 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/investigaciones/1">Investigaciones</RouterLink>
+            <RouterLink class="nav-link" to="/about/1">Acerca de</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/investigaciones/23">Investigaciones</RouterLink>
           </li>
         </ul>
       </div>

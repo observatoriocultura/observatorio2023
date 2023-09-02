@@ -19,7 +19,7 @@ const investigaciones = ref([]);
 const productos = ref([]);
 const hallazgos = ref([]);
 const section = ref('table');
-const dataOrigin = 'local'
+const dataOrigin = 'drive'
 const currentInvestigacion = ref({
   'ID':-1,
   'Código':'-',

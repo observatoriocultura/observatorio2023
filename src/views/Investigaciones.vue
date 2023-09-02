@@ -186,7 +186,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <h1 class="text-center page-title">Plan Anual de Investigaciones 2023 ({{ investigacionId }})</h1>
+  <h1 class="text-center page-title">Plan Anual de Investigaciones 2023</h1>
   <div class="text-center" v-if="loading">
     <div class="spinner-border text-secondary" role="status">
       <span class="visually-hidden">Loading...</span>

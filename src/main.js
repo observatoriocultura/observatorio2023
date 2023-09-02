@@ -1,4 +1,4 @@
-import './assets/css/theme-pai.css'
+import './assets/css/theme-crb.css'
 import './assets/css/style.css'
 import './assets/css/pacarina.css'
 import './assets/css/dogcc.css'

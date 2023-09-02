@@ -19,7 +19,7 @@ const investigaciones = ref([]);
 const productos = ref([]);
 const hallazgos = ref([]);
 const section = ref('table');
-const dataOrigin = 'drive'
+const dataOrigin = 'local'
 const currentInvestigacion = ref({
   'ID':-1,
   'Código':'-',
@@ -38,7 +38,7 @@ const csvPath = (sheetName) => {
   if (dataOrigin == 'drive') {
     return 'https://docs.google.com/spreadsheets/d/' + idDriveFile + '/export?format=csv&gid=' + fileGids[sheetName];  
   } else {
-    return 'https://jmojedap.github.io/observatorio/data/pai_' + sheetName + '.csv';
+    return 'https://observatoriocultura.github.io/observatorio2023/data/pai_' + sheetName + '.csv';
   }
 }
 
@@ -302,14 +302,14 @@ onMounted(() => {
                           <table>
                               <tbody>
                                   <template v-for="(producto,j) in filteredProductos" :key="j">
-                                      <tr v-if="currentInvestigacion['ID'] == producto['ID Investigación']">
+                                      <tr v-if="currentInvestigacion['ID'] == producto['ID Investigación'] && producto['Link para ficha'].length > 0">
                                           <td width="65px" class="text-center">
-                                              <div class="icon-container" v-bind:title="producto['Tipo producto']">
-                                                  <a v-bind:href="producto['Link para ficha']" target="_blank">
-                                                      <span
-                                                          v-html="iconoTipoProucto(producto['Tipo producto'])"></span>
-                                                  </a>
-                                              </div>
+                                              <a v-bind:href="producto['Link para ficha']" target="_blank">
+                                                <div class="icon-container" v-bind:title="producto['Tipo producto']">
+                                                        <span
+                                                            v-html="iconoTipoProucto(producto['Tipo producto'])"></span>
+                                                </div>
+                                              </a>
                                           </td>
                                           <td>
                                               <a v-bind:href="producto['Link para ficha']"
@@ -347,7 +347,7 @@ onMounted(() => {
 <style>
   .page-title{
     color: white;
-    background-color: #5e4293;
+    background-color: #C53C99;
     padding: 0.2em;
     margin-bottom: 0.5em;
     font-size: 1em;
